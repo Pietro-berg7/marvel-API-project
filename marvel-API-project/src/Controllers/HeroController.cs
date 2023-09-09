@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using marvel_API_project.src.Dto;
+using Microsoft.AspNetCore.Mvc;
 
 namespace marvel_API_project.src.Controllers
 {
@@ -6,5 +7,10 @@ namespace marvel_API_project.src.Controllers
     [Route("api/v1/heros")]
     public class HeroController
     {
+        [HttpPost]
+        public CreateHero Create(CreateHero hero)
+        {
+            return hero;
+        }
     }
 }
