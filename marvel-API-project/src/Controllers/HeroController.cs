@@ -2,6 +2,7 @@
 using marvel_API_project.src.Dto;
 using marvel_API_project.src.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace marvel_API_project.src.Controllers
 {
@@ -16,21 +17,29 @@ namespace marvel_API_project.src.Controllers
             _context = context;
         }
 
-        [HttpGet("{id:int}")]
-        public Hero GetById(int id)
+        [HttpGet]
+        public async Task<ActionResult<List<Hero>>> List()
         {
-            var result = _context.Heroes.FirstOrDefault(h => h.Id == id);
+            var heroes = await _context.Heroes.ToListAsync();
+
+            return heroes;
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<Hero>> GetById(int id)
+        {
+            var result = await _context.Heroes.FirstOrDefaultAsync(h => h.Id == id);
 
             return result;
         }
 
         [HttpPost]
-        public Hero Create(CreateHero hero)
+        public async Task<ActionResult<Hero>> Create([FromBody] CreateHero hero)
         {
             var newHero = new Hero(hero);
 
             _context.Heroes.Add(newHero);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return newHero;
         }
