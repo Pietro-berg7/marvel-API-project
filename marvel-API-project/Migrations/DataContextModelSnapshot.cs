@@ -52,11 +52,9 @@ namespace marvel_API_project.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("GroupId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(80)
                         .HasColumnType("nvarchar(80)");
 
@@ -76,9 +74,7 @@ namespace marvel_API_project.Migrations
                 {
                     b.HasOne("marvel_API_project.src.Entities.Group", "group")
                         .WithMany()
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("GroupId");
 
                     b.Navigation("group");
                 });

@@ -1,4 +1,6 @@
-﻿using marvel_API_project.src.Dto;
+﻿using marvel_API_project.src.Database;
+using marvel_API_project.src.Dto;
+using marvel_API_project.src.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace marvel_API_project.src.Controllers
@@ -7,10 +9,22 @@ namespace marvel_API_project.src.Controllers
     [Route("api/v1/heros")]
     public class HeroController
     {
-        [HttpPost]
-        public CreateHero Create(CreateHero hero)
+        private readonly DataContext _context;
+
+        public HeroController(DataContext context)
         {
-            return hero;
+            _context = context;
+        }
+
+        [HttpPost]
+        public Hero Create(CreateHero hero)
+        {
+            var newHero = new Hero(hero);
+
+            _context.Heroes.Add(newHero);
+            _context.SaveChanges();
+
+            return newHero;
         }
     }
 }
