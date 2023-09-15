@@ -16,6 +16,14 @@ namespace marvel_API_project.src.Controllers
             _context = context;
         }
 
+        [HttpGet("{id:int}")]
+        public Hero GetById(int id)
+        {
+            var result = _context.Heroes.FirstOrDefault(h => h.Id == id);
+
+            return result;
+        }
+
         [HttpPost]
         public Hero Create(CreateHero hero)
         {
